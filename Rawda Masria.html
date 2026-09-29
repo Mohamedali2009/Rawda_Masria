@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روضة مصرية - الموسوعة التعليمية الشاملة للأطفال</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --dark: #2D3436;
+            --light: #F7F9FC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 15px;
+            text-align: center;
+            color: white;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 3px;
+        }
+
+        .brand-subtitle {
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: none;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--dark);
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        main {
+            flex: 1;
+            padding: 15px;
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            height: 95px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            transition: transform 0.1s;
+        }
+
+        .card:active {
+            transform: scale(0.92);
+        }
+
+        .card-main {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .card-sub {
+            font-size: 0.7rem;
+            color: #777;
+            margin-top: 3px;
+            font-weight: 700;
+            text-align: center;
+            padding: 0 5px;
+        }
+
+        .color-card {
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            font-size: 0.78rem;
+            margin-top: auto;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        footer span {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* النافذة المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            width: 80%;
+            max-width: 280px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .modal-display {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .modal-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 20px;
+            font-size: 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏛️ روضة مصرية</h1>
+        <div class="brand-subtitle">إشراف: محمد علي محمد علي سالم</div>
+        <p>موسوعة تفاعلية ضخمة لتعلم الكلمات والألوان والنطق!</p>
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('ar', this)">عربي (100)</button>
+            <button class="tab-btn" onclick="switchTab('en', this)">English (100)</button>
+            <button class="tab-btn" onclick="switchTab('colors', this)">الألوان (50)</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- قسم العربية (100 كلمة) -->
+        <section id="ar" class="section active">
+            <h2 class="section-title">كلمات عربية تعليمية</h2>
+            <div class="grid-container" id="ar-grid"></div>
+        </section>
+
+        <!-- قسم الإنجليزية (100 كلمة) -->
+        <section id="en" class="section">
+            <h2 class="section-title">English Vocabulary</h2>
+            <div class="grid-container" id="en-grid"></div>
+        </section>
+
+        <!-- قسم الألوان (50 لوناً) -->
+        <section id="colors" class="section">
+            <h2 class="section-title">موسوعة الألوان (50 لوناً)</h2>
+            <div class="grid-container" id="colors-grid"></div>
+        </section>
+    </main>
+
+    <div class="modal" id="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-display" id="modal-display">أ</div>
+            <div class="modal-text" id="modal-text">ألف</div>
+            <button class="close-btn" onclick="closeModal()">حسناً 👍</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © 2026 | موقع <span>روضة مصرية</span></p>
+        <p>تطوير وإشراف: <span>محمد علي</span></p>
+    </footer>
+
+    <script>
+        // مصفوفة 100 كلمة عربية تشمل الحروف والأسماء البسيطة
+        const arWords = [
+            {c: 'أ', n: 'ألف - أسد'}, {c: 'ب', n: 'باء - بطة'}, {c: 'ت', n: 'تاء - تفاحة'},
+            {c: 'ث', n: 'ثاء - ثعلب'}, {c: 'ج', n: 'جيم - جمل'}, {c: 'ح', n: 'حاء - حصان'},
+            {c: 'خ', n: 'خاء - خروف'}, {c: 'د', n: 'دال - دراجة'}, {c: 'ذ', n: 'ذال - ذئب'},
+            {c: 'ر', n: 'راء - رمان'}, {c: 'ز', n: 'زاي - زرافة'}, {c: 'س', n: 'سين - سمكة'},
+            {c: 'ش', n: 'شين - شمس'}, {c: 'ص', n: 'صاد - صقر'}, {c: 'ض', n: 'ضاد - ضفدع'},
+            {c: 'ط', n: 'طاء - طائرة'}, {c: 'ظ', n: 'ظاء - ظرف'}, {c: 'ع', n: 'عين - عنب'},
+            {c: 'غ', n: 'غين - غزال'}, {c: 'ف', n: 'فاء - فيل'}, {c: 'ق', n: 'قاف - قلم'},
+            {c: 'ك', n: 'كاف - كتاب'}, {c: 'ل', n: 'لام - ليمون'}, {c: 'م', n: 'ميم - موز'},
+            {c: 'ن', n: 'نون - نحلة'}, {c: 'هـ', n: 'هاء - هدهد'}, {c: 'و', n: 'واو - وردة'},
+            {c: 'ي', n: 'ياء - يد'}, {c: '٠', n: 'صفر'}, {c: '١', n: 'واحد'},
+            {c: '٢', n: 'اثنان'}, {c: '٣', n: 'ثلاثة'}, {c: '٤', n: 'أربعة'},
+            {c: '٥', n: 'خمسة'}, {c: '٦', n: 'ستة'}, {c: '٧', n: 'سبعة'},
+            {c: '٨', n: 'ثمانية'}, {c: '٩', n: 'تسعة'}, {c: '١٠', n: 'عشرة'},
+            {c: 'أب', n: 'أب (Father)'}, {c: 'أم', n: 'أم (Mother)'}, {c: 'أخ', n: 'أخ (Brother)'},
+            {c: 'أخت', n: 'أخت (Sister)'}, {c: 'بيت', n: 'بيت (House)'}, {c: 'باب', n: 'باب (Door)'},
+            {c: 'قمر', n: 'قمر (Moon)'}, {c: 'ماء', n: 'ماء (Water)'}, {c: 'لبن', n: 'لبن (Milk)'},
+            {c: 'خبز', n: 'خبز (Bread)'}, {c: 'تفاح', n: 'تفاح (Apples)'}, {c: 'موز', n: 'موز (Bananas)'},
+            {c: 'كرة', n: 'كرة (Ball)'}, {c: 'لعبة', n: 'لعبة (Toy)'}, {c: 'قلم', n: 'قلم (Pen)'},
+            {c: 'ورقة', n: 'ورقة (Paper)'}, {c: 'حقيبة', n: 'حقيبة (Bag)'}, {c: 'سماء', n: 'سماء (Sky)'},
+            {c: 'أرض', n: 'أرض (Earth)'}, {c: 'بحيرة', n: 'بحيرة (Lake)'}, {c: 'طريق', n: 'طريق (Road)'},
+            {c: 'سيارة', n: 'سيارة (Car)'}, {c: 'قطار', n: 'قطار (Train)'}, {c: 'طائرة', n: 'طائرة (Plane)'},
+            {c: 'سفينة', n: 'سفينة (Ship)'}, {c: 'شجرة', n: 'شجرة (Tree)'}, {c: 'زهرة', n: 'زهرة (Flower)'},
+            {c: 'عصفور', n: 'عصفور (Bird)'}, {c: 'قطة', n: 'قطة (Cat)'}, {c: 'كلب', n: 'كلب (Dog)'},
+            {c: 'أسد', n: 'أسد (Lion)'}, {c: 'فيل', n: 'فيل (Elephant)'}, {c: 'قرد', n: 'قرد (Monkey)'},
+            {c: 'دب', n: 'دب (Bear)'}, {c: 'نمر', n: 'نمر (Tiger)'}, {c: 'حصان', n: 'حصان (Horse)'},
+            {c: 'خروف', n: 'خروف (Sheep)'}, {c: 'بقرة', n: 'بقرة (Cow)'}, {c: 'دجاجة', n: 'دجاجة (Hen)'},
+            {c: 'بيض', n: 'بيض (Eggs)'}, {c: 'جبن', n: 'جبن (Cheese)'}, {c: 'عسل', n: 'عسل (Honey)'},
+            {c: 'سمن', n: 'سمن (Ghee)'}, {c: 'ملح', n: 'ملح (Salt)'}, {c: 'سكر', n: 'سكر (Sugar)'},
+            {c: 'شاي', n: 'شاي (Tea)'}, {c: 'قهوة', n: 'قهوة (Coffee)'}, {c: 'طعام', n: 'طعام (Food)'},
+            {c: 'سرير', n: 'سرير (Bed)'}, {c: 'كرسي', n: 'كرسي (Chair)'}, {c: 'طاولة', n: 'طاولة (Table)'},
+            {c: 'ساعة', n: 'ساعة (Clock)'}, {c: 'باب', n: 'باب (Gate)'}, {c: 'نافذة', n: 'نافذة (Window)'},
+            {c: 'غرفة', n: 'غرفة (Room)'}, {c: 'مطبخ', n: 'مطبخ (Kitchen)'}, {c: 'حمام', n: 'حمام (Bathroom)'},
+            {c: 'صباح', n: 'صباح (Morning)'}, {c: 'مساء', n: 'مساء (Evening)'}, {c: 'ليل', n: 'ليل (Night)'}
+        ];
+
+        // مصفوفة 100 كلمة إنجليزية تعليمية للأطفال
+        const enWords = [
+            {c: 'A', n: 'Apple'}, {c: 'B', n: 'Ball'}, {c: 'C', n: 'Cat'},
+            {c: 'D', n: 'Dog'}, {c: 'E', n: 'Elephant'}, {c: 'F', n: 'Fish'},
+            {c: 'G', n: 'Girl'}, {c: 'H', n: 'Hat'}, {c: 'I', n: 'Ice cream'},
+            {c: 'J', n: 'Jug'}, {c: 'K', n: 'Kite'}, {c: 'L', n: 'Lion'},
+            {c: 'M', n: 'Monkey'}, {c: 'N', n: 'Nest'}, {c: 'O', n: 'Orange'},
+            {c: 'P', n: 'Pen'}, {c: 'Q', n: 'Queen'}, {c: 'R', n: 'Rabbit'},
+            {c: 'S', n: 'Sun'}, {c: 'T', n: 'Tree'}, {c: 'U', n: 'Umbrella'},
+            {c: 'V', n: 'Van'}, {c: 'W', n: 'Watch'}, {c: 'X', n: 'Xylophone'},
+            {c: 'Y', n: 'Yacht'}, {c: 'Z', n: 'Zebra'}, {c: '0', n: 'Zero'},
+            {c: '1', n: 'One'}, {c: '2', n: 'Two'}, {c: '3', n: 'Three'},
+            {c: '4', n: 'Four'}, {c: '5', n: 'Five'}, {c: '6', n: 'Six'},
+            {c: '7', n: 'Seven'}, {c: '8', n: 'Eight'}, {c: '9', n: 'Nine'},
+            {c: '10', n: 'Ten'}, {c: 'Dad', n: 'Father'}, {c: 'Mom', n: 'Mother'},
+            {c: 'Boy', n: 'Boy'}, {c: 'Girl', n: 'Girl'}, {c: 'Baby', n: 'Baby'},
+            {c: 'Book', n: 'Book'}, {c: 'Pen', n: 'Pen'}, {c: 'Bag', n: 'Bag'},
+            {c: 'Car', n: 'Car'}, {c: 'Bus', n: 'Bus'}, {c: 'Bike', n: 'Bike'},
+            {c: 'Train', n: 'Train'}, {c: 'Plane', n: 'Plane'}, {c: 'Ship', n: 'Ship'},
+            {c: 'House', n: 'House'}, {c: 'Door', n: 'Door'}, {c: 'Bed', n: 'Bed'},
+            {c: 'Milk', n: 'Milk'}, {c: 'Water', n: 'Water'}, {c: 'Egg', n: 'Egg'},
+            {c: 'Cake', n: 'Cake'}, {c: 'Rice', n: 'Rice'}, {c: 'Meat', n: 'Meat'},
+            {c: 'Fish', n: 'Fish'}, {c: 'Star', n: 'Star'}, {c: 'Moon', n: 'Moon'},
+            {c: 'Sky', n: 'Sky'}, {c: 'Sea', n: 'Sea'}, {c: 'Rain', n: 'Rain'},
+            {c: 'Wind', n: 'Wind'}, {c: 'Snow', n: 'Snow'}, {c: 'Fire', n: 'Fire'},
+            {c: 'Toy', n: 'Toy'}, {c: 'Game', n: 'Game'}, {c: 'Play', n: 'Play'},
+            {c: 'Run', n: 'Run'}, {c: 'Jump', n: 'Jump'}, {c: 'Walk', n: 'Walk'},
+            {c: 'Sleep', n: 'Sleep'}, {c: 'Eat', n: 'Eat'}, {c: 'Drink', n: 'Drink'},
+            {c: 'Happy', n: 'Happy'}, {c: 'Smile', n: 'Smile'}, {c: 'Hand', n: 'Hand'},
+            {c: 'Foot', n: 'Foot'}, {c: 'Head', n: 'Head'}, {c: 'Eye', n: 'Eye'},
+            {c: 'Ear', n: 'Ear'}, {c: 'Nose', n: 'Nose'}, {c: 'Mouth', n: 'Mouth'},
+            {c: 'Red', n: 'Red'}, {c: 'Blue', n: 'Blue'}, {c: 'Pink', n: 'Pink'},
+            {c: 'Gold', n: 'Gold'}, {c: 'Silver', n: 'Silver'}, {c: 'Gray', n: 'Gray'},
+            {c: 'Dark', n: 'Dark'}, {c: 'Light', n: 'Light'}, {c: 'Hot', n: 'Hot'},
+            {c: 'Cold', n: 'Cold'}, {c: 'Fast', n: 'Fast'}, {c: 'Slow', n: 'Slow'}
+        ];
+
+        // مصفوفة 50 لوناً (عربي وإنجليزي)
+        const colorsList = [
+            {n: 'أحمر - Red', h: '#FF4757'}, {n: 'أزرق - Blue', h: '#2E86DE'},
+            {n: 'أصفر - Yellow', h: '#FFC312'}, {n: 'أخضر - Green', h: '#10AC84'},
+            {n: 'برتقالي - Orange', h: '#FF9F43'}, {n: 'بنفسجي - Purple', h: '#5F27CD'},
+            {n: 'وردي - Pink', h: '#FF6B81'}, {n: 'بني - Brown', h: '#846241'},
+            {n: 'أسود - Black', h: '#2F3640'}, {n: 'أبيض - White', h: '#F5F6FA', darkText: true},
+            {n: 'رمادي - Gray', h: '#718093'}, {n: 'سماوي - Cyan', h: '#00D2D3'},
+            {n: 'ذهبي - Gold', h: '#E1B12C'}, {n: 'فضي - Silver', h: '#BDC581'},
+            {n: 'كحلي - Navy', h: '#1B1464'}, {n: 'زيتوني - Olive', h: '#558B2F'},
+            {n: 'قرمزي - Crimson', h: '#DC143C'}, {n: 'تركواز - Turquoise', h: '#1ABC9C'},
+            {n: 'بنفسجي فاتح - Lavender', h: '#B33771'}, {n: 'نيلي - Indigo', h: '#3B3B98'},
+            {n: 'عنابي - Maroon', h: '#800000'}, {n: 'مرجاني - Coral', h: '#FF6B6B'},
+            {n: 'خمري - Burgundy', h: '#6C5CE7'}, {n: 'عسلي - Amber', h: '#F39C12'},
+            {n: 'ليموني - Lime', h: '#CDDC39'}, {n: 'نعناعي - Mint', h: '#00B894'},
+            {n: 'خوخي - Peach', h: '#FAB1A0'}, {n: 'وردي فاقع - Magenta', h: '#E84393'},
+            {n: 'فيروزي داكن - Teal', h: '#006666'}, {n: 'بنفسجي غامق - Plum', h: '#8E44AD'},
+            {n: 'أزرق فاتح - Sky Blue', h: '#48DBFB'}, {n: 'أخضر فاتح - Light Green', h: '#1DD1A1'},
+            {n: 'أصفر فاتح - Lemon', h: '#FECA57'}, {n: 'برتقالي محروق - Rust', h: '#D35400'},
+            {n: 'بني شوكولاتة - Chocolate', h: '#D2691E'}, {n: 'رمادي فاتح - Silver Foil', h: '#BDC3C7', darkText: true},
+            {n: 'رمادي غامق - Charcoal', h: '#34495E'}, {n: 'أزرق ملكي - Royal Blue', h: '#30336B'},
+            {n: 'أخضر غامق - Forest Green', h: '#273C75'}, {n: 'وردي غامق - Deep Pink', h: '#C44569'},
+            {n: 'أزرق بحري - Ocean', h: '#0984E3'}, {n: 'بني دافئ - Warm Brown', h: '#A0522D'},
+            {n: 'أصفر داكن - Mustard', h: '#F1C40F'}, {n: 'بنفسجي صاخب - Orchid', h: '#DA70D6'},
+            {n: 'وردي باستيل - Pastel Pink', h: '#FFC0CB', darkText: true}, {n: 'أزرق باستيل - Pastel Blue', h: '#A4B0BE'},
+            {n: 'أخضر باستيل - Pastel Green', h: '#81ECEC', darkText: true}, {n: 'بنفسجي باستيل - Lilac', h: '#E056FD'},
+            {n: 'أحمر داكن - Brick Red', h: '#B22222'}, {n: 'أبيض ثلجي - Snow', h: '#FFFFFF', darkText: true}
+        ];
+
+        // تعبئة البيانات في الشاشات
+        function fillGrid(id, data, lang) {
+            const grid = document.getElementById(id);
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<div class="card-main">${item.c}</div><div class="card-sub">${item.n}</div>`;
+                card.onclick = () => {
+                    speak(item.n, lang);
+                    showModal(item.c, item.n);
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        function fillColors() {
+            const grid = document.getElementById('colors-grid');
+            colorsList.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card color-card';
+                card.style.backgroundColor = item.h;
+                if(item.darkText) {
+                    card.style.color = '#2D3436';
+                }
+                card.innerHTML = `<div class="card-main" style="font-size:1.2rem;">🎨</div><div class="card-sub" style="color: ${item.darkText ? '#2D3436' : '#fff'};">${item.n}</div>`;
+                card.onclick = () => {
+                    speak(item.n, 'ar-SA');
+                    showModal('🎨', item.n);
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        fillGrid('ar-grid', arWords, 'ar-SA');
+        fillGrid('en-grid', enWords, 'en-US');
+        fillColors();
+
+        // خاصية النطق الصوتي التفاعلي
+        function speak(text, lang) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = lang;
+                utter.rate = 0.8;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        function switchTab(secId, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(secId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function showModal(c, n) {
+            document.getElementById('modal-display').innerText = c;
+            document.getElementById('modal-text').innerText = n;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
